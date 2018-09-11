@@ -133,7 +133,56 @@ Compile and link your program with AddressSanitizer using appropriate flags.
 Run your program with the previously generated 100 test cases. A simple shell script loop for example is an easy way to run the test cases.
 
 **Provide the C-code of your program**
+```
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
 
+int main(){
+
+FILE *fp;
+   char buff[255];
+   int count = 0;
+   fp = fopen("input.txt", "r");
+bool state = false;
+ while (fscanf(fp, "%s", buff)!=EOF) {
+count++;
+printf("%s\n", buff );
+int i =0;
+int len = strlen(buff);
+for (i = 0;i<len;i++) {
+if (count == 1) {
+	if (isdigit(buff[i]))  {
+	state = true;
+	printf("%C\n", buff[i] );
+    } else {
+	state =false;
+   }
+} else if (count == 2) {
+	if (!isdigit(buff[i]))  {
+	state = true;
+	printf("%C\n", buff[i] );
+    } else {
+	state =false;
+   }
+} else if(count > 2) {
+	state=false;
+}
+}
+
+}
+   fclose(fp);
+if(state) {
+printf("\ntoken is correct\n");
+return 1;
+} else {
+printf("\ntoken is not correct\n");
+return 0;
+}
+
+}
+```
 **Take a screenshot of the AddressSanitizer results after running your program with the testcases. Show at least 3 ASan outputs.**
 
 ---
